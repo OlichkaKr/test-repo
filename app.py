@@ -1,9 +1,13 @@
 from flask import Flask, json, request
 from flask_pymongo import PyMongo
+from pymongo import MongoClient
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = "mongodb://oilproductioninfo:GtPvmWddBMjnLCLTvgPETffWGg5ENcDJZg4mSqmmiiiaxyME3DNR3vpwrwaAvqeTV0yTx8XNBTBqtDTWg0PuCw==@oilproductioninfo.documents.azure.com:10255/?ssl=true&replicaSet=globaldb"
-mongo = PyMongo(app)
+# app.config['MONGO_URI'] = "mongodb://oilproductioninfo:GtPvmWddBMjnLCLTvgPETffWGg5ENcDJZg4mSqmmiiiaxyME3DNR3vpwrwaAvqeTV0yTx8XNBTBqtDTWg0PuCw==@oilproductioninfo.documents.azure.com:10255/?ssl=true&replicaSet=globaldb"
+# mongo = PyMongo(app)
+client = MongoClient("mongodb://oilproductioninfo.documents.azure.com:10255/?ssl=true")
+db = client.test
+db.authenticate(name="oilproductioninfo",password="GtPvmWddBMjnLCLTvgPETffWGg5ENcDJZg4mSqmmiiiaxyME3DNR3vpwrwaAvqeTV0yTx8XNBTBqtDTWg0PuCw==")
 
 
 @app.route("/")
@@ -13,7 +17,7 @@ def hello():
 
 @app.route("/api/service/get/all", methods=['GET'])
 def get_all_data():
-    test = mongo.db.test
+    test = db.test
     data = list(test.find({}))
     result_data = {}
     for key, value in enumerate(data):
@@ -25,8 +29,20 @@ def get_all_data():
 
 @app.route("/api/service/post", methods=['GET', 'POST'])
 def post_data():
-    test = mongo.db.test
+    test = db.test
     data = request.form['data']
     test.insert(json.loads(data))
     d = list(test.find({}))
     return json.dumps({len(d) - 1: data})
+
+
+# @app.route("/test")
+# def test_post():
+#     test = mongo.db.test
+#     data = {'test': "itstest"}
+#     test.insert(data)
+#     return 'Success'
+#
+#
+# if __name__ == '__main__':
+#     app.run(debug=True)
