@@ -42,5 +42,5 @@ def post_data():
     data['image'] = encoded_string
     test.insert(data)
     d = list(test.find({}))
-    return json.dumps({len(d) - 1: data})
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
