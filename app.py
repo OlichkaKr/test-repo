@@ -1,3 +1,6 @@
+import base64
+import urllib.request
+
 from flask import Flask, json, request
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
@@ -31,18 +34,12 @@ def get_all_data():
 def post_data():
     test = db.test
     data = request.form['data']
+    encoded_string = ''
+    urllib.request.urlretrieve('https://image.freepik.com/free-vector/_1378-197.jpg', 'image.bmp')
+    with open("image.bmp", "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    data['image'] = encoded_string
     test.insert(json.loads(data))
     d = list(test.find({}))
     return json.dumps({len(d) - 1: data})
 
-
-# @app.route("/test")
-# def test_post():
-#     test = mongo.db.test
-#     data = {'test': "itstest"}
-#     test.insert(data)
-#     return 'Success'
-#
-#
-# if __name__ == '__main__':
-#     app.run(debug=True)
