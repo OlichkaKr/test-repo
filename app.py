@@ -25,7 +25,7 @@ def get_all_data():
     result_data = {}
     for key, value in enumerate(data):
         result_data[key] = dict(list(value.items())[1:])
-        result_data[key]['image'] = base64.b16decode(result_data[key]['image'])
+        # result_data[key]['image'] = base64.b16decode(result_data[key]['image'])
     # or via dict comprehension
     # result_data = {i: dict(list(data[i].items())[1:]) for i in range(len(data))}
     return json.dumps(result_data)
