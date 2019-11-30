@@ -38,8 +38,9 @@ def post_data():
     urllib.request.urlretrieve('https://image.freepik.com/free-vector/_1378-197.jpg', 'image.bmp')
     with open("image.bmp", "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
+    data = json.loads(data)
     data['image'] = encoded_string
-    test.insert(json.loads(data))
+    test.insert(data)
     d = list(test.find({}))
     return json.dumps({len(d) - 1: data})
 
