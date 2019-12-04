@@ -2,13 +2,9 @@ import base64
 import urllib.request
 
 from flask import Flask, json, request
-from pymongo import MongoClient
 from firebase_admin import credentials, firestore, initialize_app
 
 app = Flask(__name__)
-# client = MongoClient("mongodb://oilproductioninfo.documents.azure.com:10255/?ssl=true")
-# db = client.test
-# db.authenticate(name="oilproductioninfo",password="GtPvmWddBMjnLCLTvgPETffWGg5ENcDJZg4mSqmmiiiaxyME3DNR3vpwrwaAvqeTV0yTx8XNBTBqtDTWg0PuCw==")
 cred = credentials.Certificate("key.json")
 default_app = initialize_app(cred)
 db = firestore.client()
@@ -27,7 +23,6 @@ def get_all_data():
     result_data = {}
     for key, value in enumerate(data):
         result_data[key] = dict(list(value.items())[1:])
-        # result_data[key]['image'] = base64.b16decode(result_data[key]['image'])
     # or via dict comprehension
     # result_data = {i: dict(list(data[i].items())[1:]) for i in range(len(data))}
     return json.dumps(result_data)
@@ -44,4 +39,3 @@ def post_data():
     data['image'] = encoded_string
     db_ref.document().set(data)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
-
