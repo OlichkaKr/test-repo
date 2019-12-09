@@ -50,5 +50,5 @@ def post_from_android():
     export = query_parameters.get('export')
     image = query_parameters.get('image')
     data = {'image': image, 'cords': cords, 'filling': filling, 'export': export}
-    db_ref.document().set(query_parameters)
+    db_ref.document().set(data)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
