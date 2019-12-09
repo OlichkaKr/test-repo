@@ -40,3 +40,16 @@ def post_data():
     data['image'] = encoded_string
     db_ref.document().set(data)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+
+@app.route("/api/service/post/android", methods=['POST'])
+def post_from_android():
+    query_parameters = request.args
+    cords = query_parameters.get('cords')
+    filling = query_parameters.get('filling')
+    export = query_parameters.get('export')
+    image = query_parameters.get('image')
+    encoded_string = base64.b64encode(image).decode('ascii')
+    data = json.loads({'image': encoded_string, 'cords': cords, 'filling': filling, 'export': export})
+    db_ref.document().set(data)
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
