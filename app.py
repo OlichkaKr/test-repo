@@ -44,7 +44,7 @@ def post_data():
 
 @app.route("/api/service/post/android", methods=['POST'])
 def post_from_android():
-    query_parameters = request.args.get()
+    query_parameters = request.args
     # cords = query_parameters.get('cords')
     # filling = query_parameters.get('filling')
     # export = query_parameters.get('export')
