@@ -49,7 +49,6 @@ def post_from_android():
     filling = query_parameters.get('filling')
     export = query_parameters.get('export')
     image = query_parameters.get('image')
-    encoded_string = base64.b64encode(image).decode('ascii')
-    data = json.loads({'image': encoded_string, 'cords': cords, 'filling': filling, 'export': export})
+    data = json.loads({'image': image, 'cords': cords, 'filling': filling, 'export': export})
     db_ref.document().set(data)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
