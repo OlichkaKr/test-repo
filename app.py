@@ -45,10 +45,10 @@ def post_data():
 @app.route("/api/service/post/android", methods=['POST'])
 def post_from_android():
     query_parameters = request.args
-    # cords = query_parameters.get('cords')
-    # filling = query_parameters.get('filling')
-    # export = query_parameters.get('export')
-    # image = query_parameters.get('image')
-    # data = json.loads({'image': image, 'cords': cords, 'filling': filling, 'export': export})
-    db_ref.document().set(query_parameters)
+    cords = query_parameters.get('cords')
+    filling = query_parameters.get('filling')
+    export = query_parameters.get('export')
+    image = query_parameters.get('image')
+    data = {'image': image, 'cords': cords, 'filling': filling, 'export': export}
+    db_ref.document().set(data)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
